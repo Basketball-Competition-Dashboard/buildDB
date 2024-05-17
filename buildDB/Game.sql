@@ -1,0 +1,8 @@
+CREATE TABLE "Game" (
+	"GID"	TEXT NOT NULL,
+	"Date"	Date,
+	"Place"	TEXT,
+	"SID"	TEXT NOT NULL,
+	PRIMARY KEY("GID"),
+	FOREIGN KEY("SID") REFERENCES "Season"("SID")
+);
