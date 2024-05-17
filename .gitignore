@@ -1,0 +1,6 @@
+/csv/
+/nba.sqlite
+/nbaDB.db
+
+.DS_Store
+__pycache__/
