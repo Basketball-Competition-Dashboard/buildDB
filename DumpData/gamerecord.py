@@ -32,11 +32,9 @@ for data in data_to_import:
 """
 
 # 計算 3 分球得分
-sourceCursor.execute("SELECT game_id, player1_id, count(*)*3 from play_by_play where eventmsgtype = 1 AND eventmsgactiontype = 1 group by game_id,player1_id")
+sourceCursor.execute("SELECT count(*)*3, game_id, player1_id from play_by_play where eventmsgtype = 1 AND eventmsgactiontype = 1 group by game_id,player1_id;")
 data_to_import = sourceCursor.fetchall()
-for data in data_to_import:
-    game_id, player_id, score = data
-    cursor.execute("UPDATE gamerecord SET score = ? WHERE GID = ? AND PID = ?", (score, game_id, player_id))
+cursor.executemany("REPLACE INTO GameRecord (score, GID, PID) VALUES(?, ?, ?);", data_to_import)
 
 conn.commit()
 conn.close()
