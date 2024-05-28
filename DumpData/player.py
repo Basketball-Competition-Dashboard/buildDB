@@ -1,15 +1,23 @@
-import csv
 import sqlite3
 
 conn = sqlite3.connect('nbaDB.db')
 cursor = conn.cursor()
+source = sqlite3.connect("nba.sqlite")
+sourceCursor = source.cursor()
 
-# 讀取CSV檔案並進行欄位名稱對應
-with open('csv/common_player_info.csv', 'r', encoding='utf-8') as file:
-    reader = csv.DictReader(file)
-    to_db = [(i['person_id'], i['first_name'], i['last_name'], i['birthdate'], i['height'], i['weight'], i['position'], i['country'], i['team_id']) for i in reader]
+sourceCursor.execute("""
+    SELECT person_id, first_name, last_name, birthdate, height, weight, position, country, team_id
+    FROM common_player_info
+	JOIN team 
+	ON common_player_info.team_id = team.id
+""")
+data_to_import = sourceCursor.fetchall()
 
-# 插入數據到SQLite資料表
-cursor.executemany("INSERT INTO Player (PID, LName, FName, Bdate, Height, Weight, Position, Country, TID) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?);", to_db)
+cursor.executemany("""
+    INSERT INTO Player (PID, LName, FName, Bdate, Height, Weight, Position, Country, TID) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?);
+""", data_to_import)
+
 conn.commit()
 conn.close()
+source.close()

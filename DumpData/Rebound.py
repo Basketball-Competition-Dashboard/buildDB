@@ -15,12 +15,13 @@ sourceCursor.execute("""
 """)
 data_to_import = sourceCursor.fetchall()
 
+init = 0
 for data in data_to_import:
     game_id, player_id, rebound = data
     cursor.execute("""
-        INSERT OR IGNORE INTO gamerecord (GID, PID, Rebound)
-        VALUES (?, ?, ?)
-    """, (game_id, player_id, rebound))
+        INSERT OR IGNORE INTO gamerecord (GID, PID, Rebound, Score)
+        VALUES (?, ?, ?, ?)
+    """, (game_id, player_id, rebound, init))
     cursor.execute("""
         UPDATE gamerecord
         SET Rebound = ?
