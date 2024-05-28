@@ -6,8 +6,8 @@ CREATE TABLE "GameRecord" (
 	"Steal"	INTEGER,
 	"Rebound"	INTEGER,
 	"Score"	INTEGER,
-	"FreeThrow"	INTEGER,
+	"FreeThrow"	TEXT,
 	PRIMARY KEY("PID","GID"),
-	FOREIGN KEY("PID") REFERENCES "Player"("PID"),
-	FOREIGN KEY("GID") REFERENCES "Game"("GID")
+	FOREIGN KEY("GID") REFERENCES "Game"("GID"),
+	FOREIGN KEY("PID") REFERENCES "Player"("PID")
 );

@@ -1,8 +1,10 @@
 CREATE TABLE "Team" (
-	"TID"	TEXT NOT NULL,
+	"TID"	INTEGER NOT NULL,
 	"TName"	TEXT,
 	"City"	TEXT,
 	"CoachName"	TEXT,
 	"YearFounded"	INTEGER,
+	"NickName"	TEXT,
+	"NameAbbr"	TEXT,
 	PRIMARY KEY("TID")
 );
