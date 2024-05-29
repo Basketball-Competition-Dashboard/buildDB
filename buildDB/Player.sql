@@ -1,5 +1,5 @@
 CREATE TABLE "Player" (
-	"PID"	TEXT NOT NULL,
+	"PID"	INTEGER NOT NULL,
 	"FName"	TEXT,
 	"LName"	TEXT,
 	"Bdate"	DATE,
@@ -7,7 +7,7 @@ CREATE TABLE "Player" (
 	"Weight"	float,
 	"Position"	TEXT,
 	"Country"	TEXT,
-	"TID"	TEXT,
-	PRIMARY KEY("PID"),
+	"TID"	INTEGER NOT NULL,
+	PRIMARY KEY("PID","TID"),
 	FOREIGN KEY("TID") REFERENCES "Team"("TID") ON UPDATE CASCADE
 );
