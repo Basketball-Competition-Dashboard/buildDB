@@ -7,11 +7,17 @@ sourceCursor = source.cursor()
 
 # 計算籃板數
 sourceCursor.execute("""
-    SELECT game_id, player1_id, count(*)
-    FROM play_by_play
-    JOIN player ON player1_id = player.id
-    WHERE eventmsgtype = 4
-    GROUP BY game_id, player1_id
+SELECT 
+    game_id, player1_id, count(*)
+FROM 
+    play_by_play
+WHERE 
+    eventmsgtype = 4 AND
+    player1_id in (
+        SELECT id FROM player
+    )
+GROUP BY 
+    game_id, player1_id
 """)
 data_to_import = sourceCursor.fetchall()
 

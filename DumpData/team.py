@@ -6,9 +6,12 @@ source = sqlite3.connect("nba.sqlite")
 sourceCursor = source.cursor()
 
 sourceCursor.execute("""
-    SELECT id, full_name, team.city, headcoach, year_founded, team.abbreviation, team.nickname 
-    FROM team
-    JOIN team_details ON team.id = team_details.team_id
+SELECT 
+    id, full_name, team.city, headcoach, year_founded, team.abbreviation, team.nickname 
+FROM 
+    team
+LEFT JOIN 
+    team_details ON team.id = team_details.team_id
 """)
 data_to_import = sourceCursor.fetchall()
 

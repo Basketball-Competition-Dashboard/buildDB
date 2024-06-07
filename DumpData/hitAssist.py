@@ -7,12 +7,18 @@ sourceCursor = source.cursor()
 
 # player1 Hit 計算並插入
 sourceCursor.execute("""
-    SELECT game_id, player1_id, count(*)
-    FROM play_by_play
-    JOIN player ON player1_id = player.id
-    WHERE eventmsgtype = 1
-    AND eventmsgactiontype = 1
-    GROUP BY game_id, player1_id
+SELECT 
+    game_id, player1_id, count(*)
+FROM 
+    play_by_play
+WHERE 
+    eventmsgtype = 1 AND 
+    eventmsgactiontype = 1 AND
+    player1_id in (
+        SELECT id FROM player
+    )
+GROUP BY 
+    game_id, player1_id
 """)
 data_to_import = sourceCursor.fetchall()
 for data in data_to_import:
@@ -30,11 +36,18 @@ for data in data_to_import:
 
 # player2 Assist 計算並插入
 sourceCursor.execute("""
-    SELECT game_id, player2_id, count(*)
-    FROM play_by_play
-    WHERE eventmsgtype = 1
-    AND player2_id != '0'
-    GROUP BY game_id, player2_id
+SELECT 
+    game_id, player2_id, count(*)
+FROM 
+    play_by_play
+WHERE 
+    eventmsgtype = 1 AND 
+    player2_id != '0' AND
+    player2_id in (
+        SELECT id FROM player
+    )
+GROUP BY 
+    game_id, player2_id
 """)
 data_to_import = sourceCursor.fetchall()
 for data in data_to_import:
@@ -52,11 +65,18 @@ for data in data_to_import:
 
 # player3 Assist 計算並插入
 sourceCursor.execute("""
-    SELECT game_id, player3_id, count(*)
-    FROM play_by_play
-    WHERE eventmsgtype = 1
-    AND player3_id != '0'
-    GROUP BY game_id, player3_id
+SELECT 
+    game_id, player3_id, count(*)
+FROM 
+    play_by_play
+WHERE 
+    eventmsgtype = 1 AND 
+    player3_id != '0' AND
+    player3_id in (
+        SELECT id FROM player
+    )
+GROUP BY 
+    game_id, player3_id
 """)
 data_to_import = sourceCursor.fetchall()
 for data in data_to_import:

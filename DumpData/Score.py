@@ -7,11 +7,18 @@ sourceCursor = source.cursor()
 
 # 計算 3 分球得分
 sourceCursor.execute("""
-    SELECT game_id, player1_id, count(*) * 3
-    FROM play_by_play
-    WHERE eventmsgtype = 1
-    AND eventmsgactiontype = 1
-    GROUP BY game_id, player1_id
+SELECT 
+    game_id, player1_id, count(*) * 3
+FROM 
+    play_by_play
+WHERE 
+    eventmsgtype = 1 AND 
+    eventmsgactiontype = 1 AND 
+    player1_id in (
+		SELECT id FROM player
+	)
+GROUP BY 
+    game_id, player1_id
 """)
 data_to_import = sourceCursor.fetchall()
 for data in data_to_import:
@@ -29,11 +36,18 @@ for data in data_to_import:
 
 # 計算 2 分球得分
 sourceCursor.execute("""
-    SELECT game_id, player1_id, count(*) * 2
-    FROM play_by_play
-    WHERE eventmsgtype = 1
-    AND eventmsgactiontype != 1
-    GROUP BY game_id, player1_id
+SELECT 
+    game_id, player1_id, count(*) * 2
+FROM 
+    play_by_play
+WHERE 
+    eventmsgtype = 1 AND 
+    eventmsgactiontype != 1 AND 
+    player1_id in (
+		SELECT id FROM player
+	)
+GROUP BY 
+    game_id, player1_id
 """)
 data_to_import = sourceCursor.fetchall()
 for data in data_to_import:

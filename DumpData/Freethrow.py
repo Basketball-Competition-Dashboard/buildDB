@@ -17,7 +17,10 @@ SELECT
 FROM
     play_by_play
 WHERE
-    eventmsgtype = 3
+    eventmsgtype = 3 and
+    player1_id in (
+        SELECT id FROM PLAYER
+    )
 GROUP BY
     game_id,
     player1_id;

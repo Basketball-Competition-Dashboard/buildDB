@@ -8,8 +8,10 @@ sourceCursor = source.cursor()
 sourceCursor.execute("""
 SELECT 
     game_id, game_date, season_id, team.city 
-FROM game
-JOIN team ON team.id = team_id_home
+FROM 
+    game
+JOIN 
+    team ON team.id = team_id_home
 """)
 data_to_import = sourceCursor.fetchall()
 

@@ -7,11 +7,15 @@ sourceCursor = source.cursor()
 
 # 計算抄截數
 sourceCursor.execute("""
-    SELECT game_id, player2_id, count(*)
-    FROM play_by_play
-    JOIN player ON player2_id = player.id
-    WHERE eventmsgtype = 5
-    GROUP BY game_id, player2_id
+SELECT 
+    game_id, player2_id, count(*)
+FROM 
+    play_by_play
+WHERE 
+    eventmsgtype = 5 AND 
+    player2_id IN (SELECT id from player)
+GROUP BY 
+    game_id, player2_id
 """)
 data_to_import = sourceCursor.fetchall()
 

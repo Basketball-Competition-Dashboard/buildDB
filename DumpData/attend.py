@@ -6,11 +6,13 @@ source = sqlite3.connect("nba.sqlite")
 sourceCursor = source.cursor()
 
 sourceCursor.execute("""
-    SELECT line_score.game_id, line_score.team_id_home, line_score.team_id_away, 
-           line_score.pts_home, line_score.pts_away, game.wl_home, game.wl_away
-    FROM line_score 
-    JOIN team ON (line_score.team_id_home = team.id OR line_score.team_id_away = team.id) 
-    JOIN game ON line_score.game_id = game.game_id;
+SELECT 
+    game.game_id, game.team_id_home, game.team_id_away, game.pts_home, game.pts_away, game.wl_home, game.wl_away
+FROM 
+    game
+WHERE 
+    team_id_away in (SELECT id from team) AND
+    team_id_home in (SELECT id from team)
 """)
 data_to_import = sourceCursor.fetchall()
 
