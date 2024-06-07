@@ -14,7 +14,10 @@ FROM
 WHERE 
     eventmsgtype = 4 AND
     player1_id in (
-        SELECT id FROM player
+        SELECT person_id FROM common_player_info
+    ) AND 
+    game_id in (
+        SELECT game_id FROM game                 
     )
 GROUP BY 
     game_id, player1_id
