@@ -13,7 +13,22 @@ FROM
     play_by_play
 WHERE 
     eventmsgtype = 5 AND 
-    player2_id IN (SELECT id from player)
+    player2_id in (
+        SELECT 
+            person_id
+        FROM 
+            common_player_info
+        JOIN 
+            team ON common_player_info.team_id = team.id
+    ) AND 
+    game_id in (
+        SELECT 
+            game_id 
+        FROM 
+            game
+        JOIN 
+            team ON team.id = team_id_home    
+    )
 GROUP BY 
     game_id, player2_id
 """)
