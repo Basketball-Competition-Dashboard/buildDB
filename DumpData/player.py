@@ -16,7 +16,7 @@ JOIN
 data_to_import = sourceCursor.fetchall()
 
 cursor.executemany("""
-    INSERT INTO Player (PID, LName, FName, Bdate, Height, Weight, Position, Country, TID) 
+    INSERT INTO Player (PID, FName, LName, Bdate, Height, Weight, Position, Country, TID) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?);
 """, data_to_import)
 
